@@ -16,15 +16,17 @@ public interface SwaggerConfigV2 {
     ResponseEntity<List<Aluno>> listarAlunosAprovados();
 
     @Operation(summary = "Lista todos os alunos reprovados que só fizeram uma prova")
-    ResponseEntity<List<Aluno>> listarAlunosReprovadosUmaProva();
+	ResponseEntity<List<Aluno>> listarAlunosReprovados(String tipo);
 
     @Operation(summary = "Busca alunos aprovados por turma")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Alunos aprovados encontrados com sucesso"),
             @ApiResponse(responseCode = "400", description = "Requisição inválida")
     })
+    
     ResponseEntity<Page<Aluno>> buscarAlunosAprovadosPorTurma(
             @Parameter(description = "Número da turma", required = true) String turma,
             @Parameter(description = "Número da página") int pageNumber,
             @Parameter(description = "Tamanho da página") int pageSize);
+
 }

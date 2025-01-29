@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v2/alunos")
 @Tag(name = "Verificar alunos", description = "Implementando operações específicas")
-public class CadastroAlunosControllerV2 {
+public class CadastroAlunosControllerV2 implements SwaggerConfigV2{
 
     private final VerificaAlunoService verificaAlunoService;
 
@@ -26,7 +26,7 @@ public class CadastroAlunosControllerV2 {
     public CadastroAlunosControllerV2(VerificaAlunoService verificaAlunoService) {
         this.verificaAlunoService = verificaAlunoService;
     }
-
+    @Override
     @GetMapping("/aprovados")
     public ResponseEntity<List<Aluno>> listarAlunosAprovados() {
         try {
@@ -36,7 +36,8 @@ public class CadastroAlunosControllerV2 {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
+    
+    @Override
     @GetMapping("/reprovados")
     public ResponseEntity<List<Aluno>> listarAlunosReprovados(@RequestParam(value = "tipo", required = false) String tipo) {
         try {
@@ -56,7 +57,8 @@ public class CadastroAlunosControllerV2 {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
+    
+    @Override
     @GetMapping("/aprovados/")
     public ResponseEntity<Page<Aluno>> buscarAlunosAprovadosPorTurma(
             @RequestParam String turma,
