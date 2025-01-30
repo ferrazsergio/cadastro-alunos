@@ -59,7 +59,7 @@ public class CadastroAlunosControllerV2 implements SwaggerConfigV2{
     }
     
     @Override
-    @GetMapping("/aprovados/")
+    @GetMapping("/aprovados")
     public ResponseEntity<Page<Aluno>> buscarAlunosAprovadosPorTurma(
             @RequestParam String turma,
             @RequestParam(defaultValue = "0") int pageNumber,
