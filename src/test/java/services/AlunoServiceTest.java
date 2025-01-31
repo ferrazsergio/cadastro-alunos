@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,22 +38,11 @@ class AlunoServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void listarAlunos_Success() {
-        List<Aluno> alunosMock = Arrays.asList(
-                new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, "SIM"),
-                new Aluno("124", "Ana", "Rua B", "Turma 1", 6.0, 5.0, 7.0, "NÃO")
-        );
-        when(alunoRepository.findAll()).thenReturn(alunosMock);
 
-        List<Aluno> result = alunoService.listarAlunos();
-        assertEquals(2, result.size());
-        verify(alunoRepository, times(1)).findAll();
-    }
 
     @Test
     void incluirAluno_NovoCadastro_Success() {
-        Aluno aluno = new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, null);
+        Aluno aluno = new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, "SIM");
 
         when(alunoRepository.existsById(aluno.getCpf())).thenReturn(false);
         when(alunoRepository.isCpfRegisteredInDifferentTurma(any(), any())).thenReturn(false);
@@ -66,7 +56,7 @@ class AlunoServiceTest {
 
     @Test
     void incluirAluno_CpfJaCadastrado_Fail() {
-        Aluno aluno = new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, null);
+        Aluno aluno = new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, "SIM");
         when(alunoRepository.existsById(aluno.getCpf())).thenReturn(true);
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> alunoService.incluirAluno(aluno));
@@ -76,8 +66,8 @@ class AlunoServiceTest {
 
     @Test
     void alterarAluno_Success() {
-        Aluno alunoExistente = new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, null);
-        Aluno alunoAtualizado = new Aluno("123", "Carlos Atualizado", "Rua B", "Turma 2", 9.5, 9.0, 8.5, null);
+        Aluno alunoExistente = new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, "SIM");
+        Aluno alunoAtualizado = new Aluno("123", "Carlos Atualizado", "Rua B", "Turma 2", 9.5, 9.0, 8.5, "SIM");
 
         when(alunoRepository.findByCpf("123")).thenReturn(alunoExistente);
         when(alunoRepository.save(any(Aluno.class))).thenReturn(alunoAtualizado);
@@ -89,6 +79,10 @@ class AlunoServiceTest {
 
     @Test
     void excluirAluno_Success() {
+        Aluno alunoExistente = new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, "SIM");
+
+        when(alunoRepository.existsById("123")).thenReturn(true);
+        when(alunoRepository.findById("123")).thenReturn(Optional.of(alunoExistente));
         doNothing().when(alunoRepository).deleteById("123");
 
         alunoService.excluirAluno("123");
@@ -96,14 +90,15 @@ class AlunoServiceTest {
         verify(alunoRepository, times(1)).deleteById("123");
     }
 
+
     @Test
     void avaliarAlunos_Success() {
-        Aluno aluno1 = new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, null);
-        Aluno aluno2 = new Aluno("124", "Ana", "Rua B", "Turma 1", 6.0, 5.0, 7.0, null);
+        Aluno aluno1 = new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, "SIM");
+        Aluno aluno2 = new Aluno("124", "Ana", "Rua B", "Turma 1", 6.0, 5.0, 7.0, "NÃO");
         List<Aluno> alunos = Arrays.asList(aluno1, aluno2);
 
         when(alunoRepository.findAll()).thenReturn(alunos);
-        when(alunoRepository.save(any(Aluno.class))).thenReturn(aluno1);
+        when(alunoRepository.save(any(Aluno.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         alunoService.avaliarAlunos();
 
@@ -111,4 +106,18 @@ class AlunoServiceTest {
         assertEquals("NÃO", aluno2.getAprovado());
         verify(alunoRepository, times(2)).save(any(Aluno.class));
     }
+    
+    @Test
+    void listarAlunos_Success() {
+        List<Aluno> alunosMock = Arrays.asList(
+                new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, "SIM"),
+                new Aluno("124", "Ana", "Rua B", "Turma 1", 6.0, 5.0, 7.0, "NÃO")
+        );
+        when(alunoRepository.findAll()).thenReturn(alunosMock);
+
+        List<Aluno> result = alunoService.listarAlunos();
+        assertEquals(2, result.size());
+        verify(alunoRepository, times(1)).findAll();
+    }
+
 }

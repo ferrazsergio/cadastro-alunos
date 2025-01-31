@@ -26,11 +26,8 @@ public class VerificaAlunoService {
         this.alunoRepository = alunoRepository;
     }
 
-    /**
-     * Lista todos os alunos aprovados.
-     * @return Lista de alunos aprovados.
-     */
     public List<Aluno> listarAlunosAprovados() {
+        logger.info("Listando alunos aprovados");
         List<Aluno> alunos = alunoRepository.findAll();
         List<Aluno> aprovados = new ArrayList<>();
         for (Aluno aluno : alunos) {
@@ -39,14 +36,12 @@ public class VerificaAlunoService {
                 logger.info("Aluno aprovado: {}", aluno);
             }
         }
+        logger.info("Total de alunos aprovados: {}", aprovados.size());
         return aprovados;
     }
 
-    /**
-     * Lista todos os alunos que foram reprovados so fizeram uma prova.
-     * @return Lista de alunos reprovados.
-     */
     public List<Aluno> listarAlunosReprovadosUmaProva() {
+        logger.info("Listando alunos reprovados em uma prova");
         List<Aluno> alunos = alunoRepository.findAll();
         List<Aluno> reprovadosUmaProva = new ArrayList<>();
         for (Aluno aluno : alunos) {
@@ -55,10 +50,12 @@ public class VerificaAlunoService {
                 logger.info("Aluno reprovado em uma prova: {}", aluno);
             }
         }
+        logger.info("Total de alunos reprovados em uma prova: {}", reprovadosUmaProva.size());
         return reprovadosUmaProva;
     }
 
     public List<Aluno> listarTodosAlunosReprovados() {
+        logger.info("Listando todos os alunos reprovados");
         List<Aluno> alunos = alunoRepository.findAll();
         List<Aluno> reprovados = new ArrayList<>();
         for (Aluno aluno : alunos) {
@@ -67,31 +64,22 @@ public class VerificaAlunoService {
                 logger.info("Aluno reprovado: {}", aluno);
             }
         }
+        logger.info("Total de alunos reprovados: {}", reprovados.size());
         return reprovados;
     }
 
-
-
-    /**
-     * Busca os alunos aprovados em uma determinada turma.
-     * @param turma O código da turma.
-     * @param pageNumber O número da página.
-     * @param pageSize O tamanho da página.
-     * @return Página de alunos aprovados na turma especificada.
-     */
     public Page<Aluno> buscarAlunosAprovadosPorTurma(String turma, int pageNumber, int pageSize) {
+        logger.info("Buscando alunos aprovados na turma {} com paginação - página: {}, tamanho: {}", turma, pageNumber, pageSize);
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Aluno> alunosAprovados = alunoRepository.findByTurmaAndAprovado(turma, "SIM", pageable);
-        logger.info("Alunos aprovados na turma {}: {}", turma, alunosAprovados.getContent());
+        logger.info("Alunos aprovados encontrados na turma {}: {}", turma, alunosAprovados.getContent());
         return alunosAprovados;
     }
-    /**
-     *
-     * Calcula a média das notas de um aluno.
-     * @param aluno Aluno para o qual a média será calculada.
-     * @return A média das notas do aluno.
-     */
+
     private double calcularMedia(Aluno aluno) {
-        return (aluno.getNota1() + aluno.getNota2() + aluno.getNota3()) / 3.0;
+        logger.debug("Calculando média para o aluno com CPF: {}", aluno.getCpf());
+        double media = (aluno.getNota1() + aluno.getNota2() + aluno.getNota3()) / 3.0;
+        logger.debug("Média calculada para o aluno {}: {}", aluno.getCpf(), media);
+        return media;
     }
 }
