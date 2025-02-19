@@ -8,10 +8,9 @@ import lombok.*;
 @Entity
 
 @Builder
-@ToString
 @Schema(description = "MODELO ALUNOS")
-@Table(name ="ALUNOS")
-public class Aluno  {
+@Table(name = "ALUNOS")
+public class Aluno {
 
     @Id
     @Column(unique = true, name = "CPF")
@@ -162,7 +161,4 @@ public class Aluno  {
 		return "Aluno [cpf=" + cpf + ", nome=" + nome + ", endereco=" + endereco + ", turma=" + turma + ", nota1="
 				+ nota1 + ", nota2=" + nota2 + ", nota3=" + nota3 + ", aprovado=" + aprovado + "]";
 	}
-    
-    
-    
 }
