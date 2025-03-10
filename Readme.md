@@ -62,7 +62,7 @@ O projeto está dividido em pacotes de acordo com as versões da API:
 
 #### Buscar Alunos Aprovados por Turma
 - **Método:** GET
-- **URL:** `/v2/alunos/aprovados/turma=1001B&pageNumber=0&pageSize=10`
+- **URL:** `/v2/alunos/aprovados/por-turma/turma=1001B&pageNumber=0&pageSize=10`
 
 ## Configuração
 
