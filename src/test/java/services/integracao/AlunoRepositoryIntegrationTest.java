@@ -1,8 +1,9 @@
-package services;
+package services.integracao;
 
 import br.com.cadastro.alunos.model.entities.Aluno;
 import br.com.cadastro.alunos.model.repository.AlunoRepository;
 import jakarta.validation.ConstraintViolationException;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@Tag("integracao")
 @SpringBootTest(classes = br.com.cadastro.alunos.CadastroAlunosApplication.class)
 @ActiveProfiles("test")  // Para carregar o application-test.properties
 public class AlunoRepositoryIntegrationTest {

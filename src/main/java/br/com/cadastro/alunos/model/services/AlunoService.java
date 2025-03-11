@@ -32,19 +32,29 @@ public class AlunoService {
     public Aluno incluirAluno(Aluno aluno) {
         logger.info("Incluindo aluno com CPF: {}", aluno.getCpf());
 
+        // Validação do CPF
+        if (aluno.getCpf() == null || aluno.getCpf().length() != 14) {
+            logger.error("CPF inválido: {}", aluno.getCpf());
+            throw new IllegalArgumentException("O CPF do aluno não é válido");
+        }
+
+        // Verifica se o CPF já está cadastrado
         if (alunoRepository.existsById(aluno.getCpf())) {
             logger.error("CPF já cadastrado: {}", aluno.getCpf());
             throw new IllegalArgumentException("CPF já cadastrado");
         }
 
+        // Verifica se o CPF está cadastrado em outra turma
         if (alunoRepository.isCpfRegisteredInDifferentTurma(aluno.getCpf(), aluno.getTurma())) {
             logger.error("Aluno com CPF {} já cadastrado em outra turma", aluno.getCpf());
             throw new IllegalArgumentException("Aluno já cadastrado em outra turma");
         }
 
+        // Salva o aluno no banco de dados
         Aluno alunoSalvo = alunoRepository.save(aluno);
         logger.info("Aluno cadastrado com sucesso: {}", alunoSalvo);
 
+        // Avalia os alunos (se necessário)
         avaliarAlunos();
 
         return alunoSalvo;
@@ -92,11 +102,13 @@ public class AlunoService {
         logger.info("Iniciando avaliação dos alunos");
 
         List<Aluno> alunos = alunoRepository.findAll();
+
         for (Aluno aluno : alunos) {
             double media = calcularMedia(aluno);
+            String mediaFormatada = String.format("%.2f", media);
             aluno.setAprovado(media >= 7.0 ? "SIM" : "NÃO");
             alunoRepository.save(aluno);
-            logger.info("Aluno {} avaliado: Média = {}, Aprovado = {}", aluno.getCpf(), media, aluno.getAprovado());
+            logger.info("Aluno {} avaliado: Média = {}, Aprovado = {}", aluno.getCpf(), mediaFormatada, aluno.getAprovado());
         }
     }
 

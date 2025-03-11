@@ -1,4 +1,4 @@
-package services;
+package services.unitarios;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -25,6 +26,7 @@ import br.com.cadastro.alunos.model.entities.Aluno;
 import br.com.cadastro.alunos.model.repository.AlunoRepository;
 import br.com.cadastro.alunos.model.services.AlunoService;
 
+@Tag("unitario")
 class AlunoServiceTest {
 
     @InjectMocks
@@ -41,7 +43,7 @@ class AlunoServiceTest {
 
 
     @Test
-    void incluirAluno_NovoCadastro_Success() {
+    void incluirAlunoNovoCadastroSucesso() {
         Aluno aluno = new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, "SIM");
 
         when(alunoRepository.existsById(aluno.getCpf())).thenReturn(false);
@@ -55,7 +57,7 @@ class AlunoServiceTest {
     }
 
     @Test
-    void incluirAluno_CpfJaCadastrado_Fail() {
+    void incluirAlunoCpfJaCadastradoFalha() {
         Aluno aluno = new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, "SIM");
         when(alunoRepository.existsById(aluno.getCpf())).thenReturn(true);
 
@@ -65,7 +67,7 @@ class AlunoServiceTest {
     }
 
     @Test
-    void alterarAluno_Success() {
+    void alterarAlunoSucesso() {
         Aluno alunoExistente = new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, "SIM");
         Aluno alunoAtualizado = new Aluno("123", "Carlos Atualizado", "Rua B", "Turma 2", 9.5, 9.0, 8.5, "SIM");
 
@@ -78,7 +80,7 @@ class AlunoServiceTest {
     }
 
     @Test
-    void excluirAluno_Success() {
+    void excluirAlunoSucesso() {
         Aluno alunoExistente = new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, "SIM");
 
         when(alunoRepository.existsById("123")).thenReturn(true);
@@ -92,7 +94,7 @@ class AlunoServiceTest {
 
 
     @Test
-    void avaliarAlunos_Success() {
+    void avaliarAlunosSucesso() {
         Aluno aluno1 = new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, "SIM");
         Aluno aluno2 = new Aluno("124", "Ana", "Rua B", "Turma 1", 6.0, 5.0, 7.0, "NÃO");
         List<Aluno> alunos = Arrays.asList(aluno1, aluno2);
@@ -108,7 +110,7 @@ class AlunoServiceTest {
     }
     
     @Test
-    void listarAlunos_Success() {
+    void listarAlunosSucesso() {
         List<Aluno> alunosMock = Arrays.asList(
                 new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.0, "SIM"),
                 new Aluno("124", "Ana", "Rua B", "Turma 1", 6.0, 5.0, 7.0, "NÃO")

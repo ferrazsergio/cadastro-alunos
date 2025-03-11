@@ -1,4 +1,4 @@
-package services;
+package services.unitarios;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,7 +23,7 @@ import org.springframework.data.domain.Pageable;
 import br.com.cadastro.alunos.model.entities.Aluno;
 import br.com.cadastro.alunos.model.repository.AlunoRepository;
 import br.com.cadastro.alunos.model.services.VerificaAlunoService;
-
+@Tag("unitario-verifica-aluno")
 @ExtendWith(MockitoExtension.class)
 class VerificaAlunoServiceTest {
 

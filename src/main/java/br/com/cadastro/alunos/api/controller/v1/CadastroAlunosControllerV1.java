@@ -36,16 +36,15 @@ public class CadastroAlunosControllerV1 implements SwaggerConfigV1 {
         }
     }
 
-    @Override
     @PostMapping
-    public ResponseEntity<String> incluirAluno(@Valid @RequestBody Aluno aluno) {
+    public ResponseEntity<?> incluirAluno(@Valid @RequestBody Aluno aluno) {
         try {
-            alunoService.incluirAluno(aluno);
-            return ResponseEntity.ok("Aluno cadastrado com sucesso");
+            Aluno alunoSalvo = alunoService.incluirAluno(aluno);
+            return ResponseEntity.status(HttpStatus.CREATED).body(alunoSalvo);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage()); // Retorna a mensagem de erro
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao cadastrar aluno");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
