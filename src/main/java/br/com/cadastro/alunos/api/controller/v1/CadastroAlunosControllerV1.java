@@ -42,7 +42,7 @@ public class CadastroAlunosControllerV1 implements SwaggerConfigV1 {
             Aluno alunoSalvo = alunoService.incluirAluno(aluno);
             return ResponseEntity.status(HttpStatus.CREATED).body(alunoSalvo);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage()); // Retorna a mensagem de erro
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }

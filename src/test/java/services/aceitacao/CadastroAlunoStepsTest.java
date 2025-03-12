@@ -4,7 +4,6 @@ package services.aceitacao;
 import br.com.cadastro.alunos.CadastroAlunosApplication;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Tag;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
 @Tag("aceitacao")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = CadastroAlunosApplication.class) // Especifique a classe de configuração
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = CadastroAlunosApplication.class)
 @ComponentScan(basePackages = "services")
 public class CadastroAlunoStepsTest {
     @BeforeAll
@@ -54,26 +53,31 @@ public class CadastroAlunoStepsTest {
 
     @Test
     public void testCadastrarAlunoComCPFInvalido() {
-        // Corpo da requisição
+
         String alunoJson = "{ \"cpf\": \"123\", \"nome\": \"João da Silva Souza\", \"endereco\": \"Rua Avelar, número 34, casa 02, Bairro Exemplo\", \"turma\": \"1001B\", \"nota1\": 8.0, \"nota2\": 7.5, \"nota3\": 9.0 }";
 
-        // Log da requisição
+
         log.info("Enviando requisição POST para /v1/alunos com CPF inválido:");
         log.info(alunoJson);
 
-        // Envia a requisição
+
         Response response = RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(alunoJson)
                 .post();
 
-        // Log da resposta
+
         log.info("Resposta recebida:");
         log.info("Status Code: {}", response.getStatusCode());
         log.info("Corpo da Resposta: {}", response.getBody().asString());
 
         // Verificações
         assertEquals(400, response.getStatusCode(), "O status da resposta deve ser 400 (Bad Request)");
-        assertTrue(response.getBody().asString().contains("O CPF do aluno não é válido"), "A resposta deve conter a mensagem de erro esperada");
+
+        // Verifica se a chave 'mensagens' está presente na resposta
+        assertTrue(response.getBody().asString().contains("mensagens"), "A resposta deve conter a chave 'mensagens'");
+
+        // Verifica se a mensagem de erro para o campo CPF está correta
+        assertTrue(response.getBody().asString().contains("O campo CPF deve ter 14 caracteres"), "A resposta deve conter a mensagem de erro correta para o CPF");
     }
 }
