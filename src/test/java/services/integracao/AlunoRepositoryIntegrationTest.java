@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.TransactionSystemException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -22,10 +23,11 @@ public class AlunoRepositoryIntegrationTest {
     @Autowired
     private AlunoRepository alunoRepository;
     private static final Logger logger = LoggerFactory.getLogger(AlunoRepositoryIntegrationTest.class);
+
     @Test
     void salvarAlunoBancoH2() {
         Aluno aluno = Aluno.builder()
-                .cpf("1234567890123")
+                .cpf("12345678901234") // CPF com 14 caracteres
                 .nome("João da Silva Souza")
                 .endereco("Rua Teste, 123, Bairro Exemplo, Cidade, Estado, CEP 12345-678")
                 .turma("1001B")
@@ -47,7 +49,7 @@ public class AlunoRepositoryIntegrationTest {
     @Test
     void salvarAlunoBancoH2FalhaCpfInvalido() {
         Aluno aluno = Aluno.builder()
-                .cpf("123") // CPF inválido (menos de 13 caracteres)
+                .cpf("123") // CPF inválido (menos de 14 caracteres)
                 .nome("João da Silva Souza")
                 .endereco("Rua Teste, 123, Bairro Exemplo, Cidade, Estado, CEP 12345-678")
                 .turma("1001B")
@@ -59,9 +61,11 @@ public class AlunoRepositoryIntegrationTest {
         logger.info("Dados do aluno que serão inseridos (CPF inválido): {}", aluno);
 
         // Verifica se a exceção de validação é lançada
-        assertThrows(ConstraintViolationException.class, () -> {
+        TransactionSystemException thrown = assertThrows(TransactionSystemException.class, () -> {
             alunoRepository.save(aluno);
         });
+
+        assertThat(thrown).hasRootCauseInstanceOf(ConstraintViolationException.class);
 
         logger.info("Teste de falha: CPF inválido lançou ConstraintViolationException, como esperado.");
     }
@@ -69,7 +73,7 @@ public class AlunoRepositoryIntegrationTest {
     @Test
     void salvarAlunoBancoH2FalhaEnderecoInvalido() {
         Aluno aluno = Aluno.builder()
-                .cpf("1234567890123")
+                .cpf("12345678901234") // CPF com 14 caracteres
                 .nome("João da Silva Souza")
                 .endereco("Rua Teste") // Endereço inválido (menos de 25 caracteres)
                 .turma("1001B")
@@ -81,9 +85,11 @@ public class AlunoRepositoryIntegrationTest {
         logger.info("Dados do aluno que serão inseridos (Endereço inválido): {}", aluno);
 
         // Verifica se a exceção de validação é lançada
-        assertThrows(ConstraintViolationException.class, () -> {
+        TransactionSystemException thrown = assertThrows(TransactionSystemException.class, () -> {
             alunoRepository.save(aluno);
         });
+
+        assertThat(thrown).hasRootCauseInstanceOf(ConstraintViolationException.class);
 
         logger.info("Teste de falha: Endereço inválido lançou ConstraintViolationException, como esperado.");
     }
