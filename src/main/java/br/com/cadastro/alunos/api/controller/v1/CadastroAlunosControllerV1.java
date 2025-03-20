@@ -24,7 +24,6 @@ public class CadastroAlunosControllerV1 implements SwaggerConfigV1 {
         this.alunoService = alunoService;
     }
 
-
     @Override
     @GetMapping()
     public ResponseEntity<List<Aluno>> listarAlunos(){
