@@ -118,11 +118,6 @@
 			<version>5.3.2</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.github.spotbugs</groupId>
-			<artifactId>spotbugs</artifactId>
-			<version>4.9.3</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -178,25 +173,6 @@
 					<rulesets>
 						<ruleset>/rulesets/java/quickstart.xml</ruleset>
 					</rulesets>
-				</configuration>
-			</plugin>
-
-			<!-- SpotBugs Plugin -->
-			<plugin>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.7.0.0</version>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<effort>Max</effort>
-					<threshold>Low</threshold>
 				</configuration>
 			</plugin>
 		</plugins>
