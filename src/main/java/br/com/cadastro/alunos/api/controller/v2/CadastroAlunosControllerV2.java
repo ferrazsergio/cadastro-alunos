@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v2/alunos")
 @Tag(name = "Verificar alunos", description = "Implementando operações específicas")
-public class CadastroAlunosControllerV2 implements SwaggerConfigV2{
+public class CadastroAlunosControllerV2 implements SwaggerConfigV2 {
 
     private final VerificaAlunoService verificaAlunoService;
 

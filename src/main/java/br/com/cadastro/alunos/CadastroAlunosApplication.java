@@ -13,10 +13,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		version = "2.0",
 		description = "Este é um projeto exemplo de cadastro de alunos com banco em memoria H2 utilizando o serviço RESTful."
 ))
-public class CadastroAlunosApplication {
+public abstract class CadastroAlunosApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CadastroAlunosApplication.class, args);
 	}
-
 }

@@ -27,59 +27,85 @@ public class VerificaAlunoService {
     }
 
     public List<Aluno> listarAlunosAprovados() {
-        logger.info("Listando alunos aprovados");
+        if (logger.isInfoEnabled()) {
+            logger.info("Listando alunos aprovados");
+        }
         List<Aluno> alunos = alunoRepository.findAll();
         List<Aluno> aprovados = new ArrayList<>();
         for (Aluno aluno : alunos) {
             if (calcularMedia(aluno) > 7.0) {
                 aprovados.add(aluno);
-                logger.info("Aluno aprovado: {}", aluno);
+                if (logger.isInfoEnabled()) {
+                    logger.info("Aluno aprovado: {}", aluno);
+                }
             }
         }
-        logger.info("Total de alunos aprovados: {}", aprovados.size());
+        if (logger.isInfoEnabled()) {
+            logger.info("Total de alunos aprovados: {}", aprovados.size());
+        }
         return aprovados;
     }
 
     public List<Aluno> listarAlunosReprovadosUmaProva() {
-        logger.info("Listando alunos reprovados em uma prova");
+        if (logger.isInfoEnabled()) {
+            logger.info("Listando alunos reprovados em uma prova");
+        }
         List<Aluno> alunos = alunoRepository.findAll();
         List<Aluno> reprovadosUmaProva = new ArrayList<>();
         for (Aluno aluno : alunos) {
             if (aluno.getNota2() == 0 || aluno.getNota3() == 0) {
                 reprovadosUmaProva.add(aluno);
-                logger.info("Aluno reprovado em uma prova: {}", aluno);
+                if (logger.isInfoEnabled()) {
+                    logger.info("Aluno reprovado em uma prova: {}", aluno);
+                }
             }
         }
-        logger.info("Total de alunos reprovados em uma prova: {}", reprovadosUmaProva.size());
+        if (logger.isInfoEnabled()) {
+            logger.info("Total de alunos reprovados em uma prova: {}", reprovadosUmaProva.size());
+        }
         return reprovadosUmaProva;
     }
 
     public List<Aluno> listarTodosAlunosReprovados() {
-        logger.info("Listando todos os alunos reprovados");
+        if (logger.isInfoEnabled()) {
+            logger.info("Listando todos os alunos reprovados");
+        }
         List<Aluno> alunos = alunoRepository.findAll();
         List<Aluno> reprovados = new ArrayList<>();
         for (Aluno aluno : alunos) {
             if (calcularMedia(aluno) <= 7.0) {
                 reprovados.add(aluno);
-                logger.info("Aluno reprovado: {}", aluno);
+                if (logger.isInfoEnabled()) {
+                    logger.info("Aluno reprovado: {}", aluno);
+                }
             }
         }
-        logger.info("Total de alunos reprovados: {}", reprovados.size());
+        if (logger.isInfoEnabled()) {
+            logger.info("Total de alunos reprovados: {}", reprovados.size());
+        }
         return reprovados;
     }
 
     public Page<Aluno> buscarAlunosAprovadosPorTurma(String turma, int pageNumber, int pageSize) {
-        logger.info("Buscando alunos aprovados na turma {} com paginação - página: {}, tamanho: {}", turma, pageNumber, pageSize);
+        if (logger.isInfoEnabled()) {
+            logger.info("Buscando alunos aprovados na turma {} com paginação - página: {}, tamanho: {}", turma, pageNumber, pageSize);
+        }
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Aluno> alunosAprovados = alunoRepository.findByTurmaAndAprovado(turma, "SIM", pageable);
-        logger.info("Alunos aprovados encontrados na turma {}: {}", turma, alunosAprovados.getContent());
+        if (logger.isInfoEnabled()) {
+            logger.info("Alunos aprovados encontrados na turma {}: {}", turma, alunosAprovados.getContent());
+        }
         return alunosAprovados;
     }
 
     private double calcularMedia(Aluno aluno) {
-        logger.debug("Calculando média para o aluno com CPF: {}", aluno.getCpf());
+        if (logger.isDebugEnabled()) {
+            logger.debug("Calculando média para o aluno com CPF: {}", aluno.getCpf());
+        }
         double media = (aluno.getNota1() + aluno.getNota2() + aluno.getNota3()) / 3.0;
-        logger.debug("Média calculada para o aluno {}: {}", aluno.getCpf(), media);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Média calculada para o aluno {}: {}", aluno.getCpf(), media);
+        }
         return media;
     }
 }

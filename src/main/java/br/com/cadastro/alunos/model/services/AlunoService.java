@@ -23,14 +23,20 @@ public class AlunoService {
     }
 
     public List<Aluno> listarAlunos() {
-        logger.info("Listando todos os alunos");
+        if (logger.isInfoEnabled()) {
+            logger.info("Listando todos os alunos");
+        }
         List<Aluno> alunos = alunoRepository.findAll();
-        logger.info("Total de alunos encontrados: {}", alunos.size());
+        if (logger.isInfoEnabled()) {
+            logger.info("Total de alunos encontrados: {}", alunos.size());
+        }
         return alunos;
     }
 
     public Aluno incluirAluno(Aluno aluno) {
-        logger.info("Incluindo aluno com CPF: {}", aluno.getCpf());
+        if (logger.isInfoEnabled()) {
+            logger.info("Incluindo aluno com CPF: {}", aluno.getCpf());
+        }
 
         // Validação do CPF
         if (aluno.getCpf() == null || aluno.getCpf().length() != 14) {
@@ -52,7 +58,9 @@ public class AlunoService {
 
         // Salva o aluno no banco de dados
         Aluno alunoSalvo = alunoRepository.save(aluno);
-        logger.info("Aluno cadastrado com sucesso: {}", alunoSalvo);
+        if (logger.isInfoEnabled()) {
+            logger.info("Aluno cadastrado com sucesso: {}", alunoSalvo);
+        }
 
         // Avalia os alunos (se necessário)
         avaliarAlunos();
@@ -61,7 +69,9 @@ public class AlunoService {
     }
 
     public Aluno alterarAluno(String cpf, Aluno aluno) {
-        logger.info("Alterando aluno com CPF: {}", cpf);
+        if (logger.isInfoEnabled()) {
+            logger.info("Alterando aluno com CPF: {}", cpf);
+        }
 
         Aluno alunoExistente = alunoRepository.findByCpf(cpf);
         if (alunoExistente == null) {
@@ -77,7 +87,9 @@ public class AlunoService {
         alunoExistente.setNota3(aluno.getNota3());
 
         Aluno alunoAlterado = alunoRepository.save(alunoExistente);
-        logger.info("Aluno com CPF {} alterado com sucesso: {}", cpf, alunoAlterado);
+        if (logger.isInfoEnabled()) {
+            logger.info("Aluno com CPF {} alterado com sucesso: {}", cpf, alunoAlterado);
+        }
 
         avaliarAlunos();
 
@@ -85,7 +97,9 @@ public class AlunoService {
     }
 
     public void excluirAluno(String cpf) {
-        logger.info("Excluindo aluno com CPF: {}", cpf);
+        if (logger.isInfoEnabled()) {
+            logger.info("Excluindo aluno com CPF: {}", cpf);
+        }
 
         if (!alunoRepository.existsById(cpf)) {
             logger.warn("Tentativa de exclusão de aluno inexistente com CPF: {}", cpf);
@@ -93,13 +107,17 @@ public class AlunoService {
         }
 
         alunoRepository.deleteById(cpf);
-        logger.info("Aluno com CPF {} excluído com sucesso", cpf);
+        if (logger.isInfoEnabled()) {
+            logger.info("Aluno com CPF {} excluído com sucesso", cpf);
+        }
 
         avaliarAlunos();
     }
 
     public void avaliarAlunos() {
-        logger.info("Iniciando avaliação dos alunos");
+        if (logger.isInfoEnabled()) {
+            logger.info("Iniciando avaliação dos alunos");
+        }
 
         List<Aluno> alunos = alunoRepository.findAll();
 
@@ -108,14 +126,20 @@ public class AlunoService {
             String mediaFormatada = String.format("%.2f", media);
             aluno.setAprovado(media >= 7.0 ? "SIM" : "NÃO");
             alunoRepository.save(aluno);
-            logger.info("Aluno {} avaliado: Média = {}, Aprovado = {}", aluno.getCpf(), mediaFormatada, aluno.getAprovado());
+            if (logger.isInfoEnabled()) {
+                logger.info("Aluno {} avaliado: Média = {}, Aprovado = {}", aluno.getCpf(), mediaFormatada, aluno.getAprovado());
+            }
         }
     }
 
     private double calcularMedia(Aluno aluno) {
-        logger.debug("Calculando média para o aluno com CPF: {}", aluno.getCpf());
+        if (logger.isDebugEnabled()) {
+            logger.debug("Calculando média para o aluno com CPF: {}", aluno.getCpf());
+        }
         double media = (aluno.getNota1() + aluno.getNota2() + aluno.getNota3()) / 3.0;
-        logger.debug("Média calculada para o aluno {}: {}", aluno.getCpf(), media);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Média calculada para o aluno {}: {}", aluno.getCpf(), media);
+        }
         return media;
     }
 }

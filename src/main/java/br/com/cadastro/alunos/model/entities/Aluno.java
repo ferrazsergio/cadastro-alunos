@@ -29,24 +29,22 @@ public class Aluno {
 	@Size(min = 14, max = 14, message = "O campo CPF deve ter 14 caracteres")
 	private String cpf;
 
-
 	@Column(name = "NOME")
 	@Schema(description = "Nome do aluno", example = "João Da Silva Souza")
 	@NotBlank(message = "O nome do aluno não pode ser nulo ou vazio")
 	@Size(min = 10, max = 40, message = "O campo NOME_ALUNO deve ter no minimo 10 caracteres e no maximo 40 ")
 	private String nome;
 
-
 	@Column(name = "ENDERECO")
 	@Schema(description = "Endereço do aluno", example = "Rua avelar, n 34, casa 02")
 	@NotBlank(message = "O endereço do aluno não pode ser nulo ou vazio")
-	@Size(min = 25,max = 100, message = "O campo ENDERECO_ALUNO deve ter no minimo 25 caracteres e no maximo 100 ")
+	@Size(min = 25, max = 100, message = "O campo ENDERECO_ALUNO deve ter no minimo 25 caracteres e no maximo 100 ")
 	private String endereco;
 
 	@Column(name = "TURMA")
 	@Schema(description = "Turma", example = "1001B")
 	@NotBlank(message = "A turma do aluno não pode ser nula ou vazia")
-	@Size(min = 4,max = 5, message = "O campo TURMA deve ter no minimo 4 caracteres e no maximo 5 ")
+	@Size(min = 4, max = 5, message = "O campo TURMA deve ter no minimo 4 caracteres e no maximo 5 ")
 	private String turma;
 
 	@Column(name = "NOTA_1", columnDefinition = "DECIMAL(3, 1)")
@@ -56,21 +54,21 @@ public class Aluno {
 	@DecimalMax(value = "10.0", message = "O campo NOTA_1 deve ser no máximo 10.0")
 	private Double nota1;
 
-	@Column(name = "NOTA_2" , columnDefinition = "DECIMAL(3,1)")
+	@Column(name = "NOTA_2", columnDefinition = "DECIMAL(3,1)")
 	@Schema(description = "Nota da segunda avaliação do aluno", example = "10")
 	@NotNull(message = "A nota da primeira avaliação do aluno não pode ser nula ou vazia")
 	@DecimalMin(value = "0.0", message = "O campo NOTA_2 deve ser no mínimo 0.0")
 	@DecimalMax(value = "10.0", message = "O campo NOTA_2 deve ser no máximo 10.0")
 	private Double nota2;
 
-	@Column(name = "NOTA_3",columnDefinition = "DECIMAL(3,1)")
+	@Column(name = "NOTA_3", columnDefinition = "DECIMAL(3,1)")
 	@Schema(description = "Nota da terceira avaliação do aluno", example = "10")
 	@NotNull(message = "A nota da primeira avaliação do aluno não pode ser nula ou vazia")
 	@DecimalMin(value = "0.0", message = "O campo NOTA_3 deve ser no mínimo 0.0")
 	@DecimalMax(value = "10.0", message = "O campo NOTA_3 deve ser no máximo 10.0")
 	private Double nota3;
 
-	@Schema(description = "Coluna para mostrar se o aluno esta aprovado ou reprovado" , hidden = true)
+	@Schema(description = "Coluna para mostrar se o aluno esta aprovado ou reprovado", hidden = true)
 	@Column(name = "APROVADO")
 	private String aprovado;
 
@@ -84,11 +82,16 @@ public class Aluno {
 		}
 		Class<?> oEffectiveClass = (obj instanceof HibernateProxy hibernateProxy) ? hibernateProxy.getHibernateLazyInitializer().getPersistentClass() : obj.getClass();
 		Class<?> thisEffectiveClass = (this instanceof HibernateProxy hibernateProxy) ? hibernateProxy.getHibernateLazyInitializer().getPersistentClass() : this.getClass();
-		if (thisEffectiveClass != oEffectiveClass) return false;
+		if (thisEffectiveClass != oEffectiveClass) {
+			return false;
+		}
 		return getCpf() != null && Objects.equals(getCpf(), aluno.getCpf());
 	}
+
 	@Override
 	public final int hashCode() {
-		return (this instanceof HibernateProxy hp) ? hp.getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+		return (this instanceof HibernateProxy hp) ?
+				hp.getHibernateLazyInitializer().getPersistentClass().hashCode() :
+				getClass().hashCode();
 	}
 }
