@@ -112,7 +112,11 @@
 			<artifactId>pmd-java</artifactId>
 			<version>7.11.0</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>9.7.1</version>
+		</dependency>
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>

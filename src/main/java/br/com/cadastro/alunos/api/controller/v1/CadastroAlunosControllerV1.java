@@ -34,7 +34,7 @@ public class CadastroAlunosControllerV1 implements SwaggerConfigV1 {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
+    @Override
     @PostMapping
     public ResponseEntity<?> incluirAluno(@Valid @RequestBody Aluno aluno) {
         try {
