@@ -12,6 +12,7 @@ import java.util.List;
 
 @Component
 @Service
+@SuppressWarnings("PMD.GuardLogStatement")
 public class AlunoService {
 
     private final AlunoRepository alunoRepository;

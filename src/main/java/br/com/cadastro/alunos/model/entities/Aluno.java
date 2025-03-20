@@ -20,6 +20,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Schema(description = "MODELO ALUNOS")
 @Table(name = "ALUNOS")
+@SuppressWarnings("PMD.UselessParentheses")
 public class Aluno {
 
 	@Id
