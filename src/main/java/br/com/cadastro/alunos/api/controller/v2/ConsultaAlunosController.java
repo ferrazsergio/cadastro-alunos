@@ -6,8 +6,6 @@ import br.com.cadastro.alunos.model.mapper.AlunoMapper;
 import br.com.cadastro.alunos.model.services.ConsultaAlunoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v2/alunos")
-@Tag(name = "Consulta de Alunos", description = "Endpoints para consulta de alunos")
+@Tag(name = "Consulta de alunos", description = "Endpoints para consulta de informações de alunos")
 @Validated
 public class ConsultaAlunosController {
 

@@ -27,7 +27,7 @@ public class AlunoMapper {
                 .cpf(aluno.getCpf())
                 .nome(aluno.getNome())
                 .turma(aluno.getTurma())
-                .media(mediaFormatada)  // Média formatada
+                .media(mediaFormatada)
                 .situacao(situacao)
                 .nota1(aluno.getNota1())
                 .nota2(aluno.getNota2())
@@ -46,8 +46,8 @@ public class AlunoMapper {
      * Formata a média para duas casas decimais
      */
     private double formatarMedia(double media) {
-        // Utilizando BigDecimal para garantir precisão na formatação
-        BigDecimal bd = new BigDecimal(media);
+        // Corrigido para usar String em vez de double no construtor do BigDecimal
+        BigDecimal bd = new BigDecimal(String.valueOf(media));
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }

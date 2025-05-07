@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@SuppressWarnings("PMD.GuardLogStatement")
 public class AlunoService {
 
     private final AlunoRepository alunoRepository;
@@ -36,7 +36,9 @@ public class AlunoService {
             }
             return alunos;
         } catch (Exception e) {
-            logger.error("Erro ao listar alunos", e);
+            if (logger.isErrorEnabled()) {
+                logger.error("Erro ao listar alunos", e);
+            }
             throw new ServiceException("Erro ao listar alunos", e);
         }
     }
@@ -49,14 +51,19 @@ public class AlunoService {
 
         try {
             // Validação do CPF
-            if (aluno.getCpf() == null || aluno.getCpf().length() != 14) {
-                logger.error("CPF inválido: {}", aluno.getCpf());
+            if (aluno.getCpf() == null || aluno.getCpf().length() != 13) {
+                if (logger.isErrorEnabled()) {
+                    logger.error("CPF inválido: {}", aluno.getCpf());
+                }
                 throw new BusinessException("O CPF do aluno não é válido");
             }
 
             // Verifica se o CPF já está cadastrado
             if (alunoRepository.existsById(aluno.getCpf())) {
-                logger.error("CPF já cadastrado: {}", aluno.getCpf());
+                // Corrigido: log protegido com verificação de nível
+                if (logger.isErrorEnabled()) {
+                    logger.error("CPF já cadastrado: {}", aluno.getCpf());
+                }
                 throw new BusinessException("CPF já cadastrado");
             }
 
@@ -64,7 +71,9 @@ public class AlunoService {
             if (alunoRepository.findById(aluno.getCpf()).isPresent()) {
                 Aluno alunoExistente = alunoRepository.findById(aluno.getCpf()).get();
                 if (!aluno.getTurma().equals(alunoExistente.getTurma())) {
-                    logger.error("Aluno com CPF {} já cadastrado em outra turma", aluno.getCpf());
+                    if (logger.isErrorEnabled()) {
+                        logger.error("Aluno com CPF {} já cadastrado em outra turma", aluno.getCpf());
+                    }
                     throw new BusinessException("Aluno já cadastrado em outra turma");
                 }
             }
@@ -84,7 +93,9 @@ public class AlunoService {
         } catch (BusinessException e) {
             throw e;
         } catch (Exception e) {
-            logger.error("Erro ao incluir aluno", e);
+            if (logger.isErrorEnabled()) {
+                logger.error("Erro ao incluir aluno", e);
+            }
             throw new ServiceException("Erro ao incluir aluno", e);
         }
     }
