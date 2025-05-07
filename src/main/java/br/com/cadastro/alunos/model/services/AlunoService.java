@@ -51,7 +51,7 @@ public class AlunoService {
 
         try {
             // Validação do CPF
-            if (aluno.getCpf() == null || aluno.getCpf().length() != 13) {
+            if (aluno.getCpf() == null || aluno.getCpf().length() != 14) {
                 if (logger.isErrorEnabled()) {
                     logger.error("CPF inválido: {}", aluno.getCpf());
                 }
