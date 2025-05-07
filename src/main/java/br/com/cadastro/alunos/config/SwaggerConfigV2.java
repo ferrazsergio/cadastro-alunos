@@ -23,10 +23,21 @@ public interface SwaggerConfigV2 {
             @ApiResponse(responseCode = "200", description = "Alunos aprovados encontrados com sucesso"),
             @ApiResponse(responseCode = "400", description = "Requisição inválida")
     })
-    
+
     ResponseEntity<Page<Aluno>> buscarAlunosAprovadosPorTurma(
             @Parameter(description = "Número da turma", required = true) String turma,
             @Parameter(description = "Número da página") int pageNumber,
             @Parameter(description = "Tamanho da página") int pageSize);
 
+
+    @Operation(summary = "Busca alunos reprovados por turma")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Alunos reprovados encontrados com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida")
+    })
+
+    ResponseEntity<Page<Aluno>> buscarAlunosReprovadosPorTurma(
+            @Parameter(description = "Número da turma", required = true) String turma,
+            @Parameter(description = "Número da página") int pageNumber,
+            @Parameter(description = "Tamanho da página") int pageSize);
 }

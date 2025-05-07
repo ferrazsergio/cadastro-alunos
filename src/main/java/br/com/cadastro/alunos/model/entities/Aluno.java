@@ -27,7 +27,7 @@ public class Aluno {
 	@Column(unique = true, name = "CPF")
 	@NotBlank(message = "O CPF do aluno não pode ser nulo ou vazio")
 	@Schema(description = "CPF do aluno ", example = "000.000.00-00")
-	@Size(min = 14, max = 14, message = "O campo CPF deve ter 14 caracteres")
+	@Size(min = 13, max = 14, message = "O campo CPF deve ter 13 caracteres")
 	private String cpf;
 
 	@Column(name = "NOME")

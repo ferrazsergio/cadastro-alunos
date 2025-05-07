@@ -22,7 +22,6 @@ public interface SwaggerConfigV1 {
             @ApiResponse(responseCode = "200", description = "Aluno cadastrado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Requisição inválida")
     })
-
     ResponseEntity<?> incluirAluno(Aluno aluno);
 
     @Operation(summary = "Exclui um aluno pelo CPF")
