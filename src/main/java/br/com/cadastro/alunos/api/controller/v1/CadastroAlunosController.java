@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @Tag(name = "Cadastro de Alunos", description = "Endpoints para operações CRUD de alunos")
@@ -45,7 +44,7 @@ public class CadastroAlunosController {
         List<Aluno> alunos = alunoService.listarAlunos();
         List<AlunoDTO> alunosDTO = alunos.stream()
                 .map(alunoMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
         return ResponseEntity.ok(alunosDTO);
     }
 

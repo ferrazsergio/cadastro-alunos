@@ -19,7 +19,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v2/alunos")
@@ -70,7 +69,7 @@ public class ConsultaAlunosController {
 
         List<AlunoDTO> alunosDTO = alunos.stream()
                 .map(alunoMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
 
         return ResponseEntity.ok(alunosDTO);
     }
@@ -110,91 +109,4 @@ public class ConsultaAlunosController {
         return ResponseEntity.ok(alunosDTO);
     }
 
-    // Mantém os endpoints existentes por compatibilidade, mas marca como deprecated
-
-    @Deprecated
-    @GetMapping("/aprovados")
-    @Operation(summary = "Listar alunos aprovados", description = "Retorna todos os alunos aprovados", deprecated = true)
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Alunos aprovados encontrados"),
-            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
-    })
-    public ResponseEntity<List<AlunoDTO>> listarAlunosAprovados() {
-        List<Aluno> alunos = consultaAlunoService.listarAlunosAprovados();
-        List<AlunoDTO> alunosDTO = alunos.stream()
-                .map(alunoMapper::toDTO)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(alunosDTO);
-    }
-
-    @Deprecated
-    @GetMapping("/reprovados")
-    @Operation(summary = "Listar alunos reprovados", description = "Retorna alunos reprovados com filtro opcional", deprecated = true)
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Alunos reprovados encontrados"),
-            @ApiResponse(responseCode = "204", description = "Nenhum aluno reprovado encontrado"),
-            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
-    })
-    public ResponseEntity<List<AlunoDTO>> listarAlunosReprovados(
-            @Parameter(description = "Tipo de reprovação: uma-prova para reprovados em apenas uma prova")
-            @RequestParam(value = "tipo", required = false) String tipo) {
-
-        List<Aluno> alunos;
-        if ("uma-prova".equals(tipo)) {
-            alunos = consultaAlunoService.listarAlunosReprovadosUmaProva();
-        } else {
-            alunos = consultaAlunoService.listarTodosAlunosReprovados();
-        }
-
-        if (alunos.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-
-        List<AlunoDTO> alunosDTO = alunos.stream()
-                .map(alunoMapper::toDTO)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(alunosDTO);
-    }
-
-    @Deprecated
-    @GetMapping("/aprovados-por-turma")
-    @Operation(summary = "Buscar alunos aprovados por turma", description = "Retorna alunos aprovados de uma turma específica", deprecated = true)
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Alunos aprovados encontrados"),
-            @ApiResponse(responseCode = "404", description = "Nenhum aluno aprovado encontrado na turma"),
-            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
-    })
-    public ResponseEntity<Page<AlunoDTO>> buscarAlunosAprovadosPorTurma(
-            @Parameter(description = "Código da turma", required = true)
-            @RequestParam String turma,
-            @Parameter(description = "Número da página")
-            @RequestParam(defaultValue = "0") int pageNumber,
-            @Parameter(description = "Tamanho da página")
-            @RequestParam(defaultValue = "10") int pageSize) {
-
-        Page<Aluno> alunos = consultaAlunoService.buscarAlunosAprovadosPorTurma(turma, pageNumber, pageSize);
-        Page<AlunoDTO> alunosDTO = alunos.map(alunoMapper::toDTO);
-        return ResponseEntity.ok(alunosDTO);
-    }
-
-    @Deprecated
-    @GetMapping("/reprovados-por-turma")
-    @Operation(summary = "Buscar alunos reprovados por turma", description = "Retorna alunos reprovados de uma turma específica", deprecated = true)
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Alunos reprovados encontrados"),
-            @ApiResponse(responseCode = "404", description = "Nenhum aluno reprovado encontrado na turma"),
-            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
-    })
-    public ResponseEntity<Page<AlunoDTO>> buscarAlunosReprovadosPorTurma(
-            @Parameter(description = "Código da turma", required = true)
-            @RequestParam String turma,
-            @Parameter(description = "Número da página")
-            @RequestParam(defaultValue = "0") int pageNumber,
-            @Parameter(description = "Tamanho da página")
-            @RequestParam(defaultValue = "10") int pageSize) {
-
-        Page<Aluno> alunos = consultaAlunoService.buscarAlunosReprovadosPorTurma(turma, pageNumber, pageSize);
-        Page<AlunoDTO> alunosDTO = alunos.map(alunoMapper::toDTO);
-        return ResponseEntity.ok(alunosDTO);
-    }
 }
