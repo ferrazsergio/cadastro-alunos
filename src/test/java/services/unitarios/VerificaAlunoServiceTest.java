@@ -178,30 +178,4 @@ class VerificaAlunoServiceTest {
         assertEquals(2, result.getTotalElements());
         verify(alunoRepository, times(1)).findByTurma("Turma 1", pageable);
     }
-
-    // Testes para as consultas otimizadas
-
-    @Test
-    void deveUsarConsultaOtimizadaParaAprovados() {
-        when(alunoRepository.findApproved()).thenReturn(List.of(alunoAprovado));
-
-        // Implementar quando as consultas otimizadas estiverem integradas ao serviço
-        // List<Aluno> aprovados = consultaAlunoService.listarAlunosAprovadosOtimizado();
-        //
-        // assertEquals(1, aprovados.size());
-        // assertEquals("Carlos", aprovados.get(0).getNome());
-        // verify(alunoRepository, times(1)).findApproved();
-    }
-
-    @Test
-    void deveUsarConsultaOtimizadaParaReprovados() {
-        when(alunoRepository.findFailed()).thenReturn(List.of(alunoReprovado));
-
-        // Implementar quando as consultas otimizadas estiverem integradas ao serviço
-        // List<Aluno> reprovados = consultaAlunoService.listarAlunosReprovadosOtimizado();
-        //
-        // assertEquals(1, reprovados.size());
-        // assertEquals("Ana", reprovados.get(0).getNome());
-        // verify(alunoRepository, times(1)).findFailed();
-    }
 }
