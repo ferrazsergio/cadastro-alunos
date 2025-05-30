@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
                 .nota1(9.0)
                 .nota2(8.5)
                 .nota3(9.2)
-                .aprovado("SIM")  // Adicionando campo aprovado
+                .aprovado("SIM")
                 .build();
 
         logger.info("Dados do aluno que serão inseridos: {}", aluno);
