@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.TransactionSystemException;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -21,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Tag("integracao")
 @SpringBootTest(classes = br.com.cadastro.alunos.CadastroAlunosApplication.class)
 @ActiveProfiles("test")  // Para carregar o application-test.properties
-public class AlunoRepositoryIntegrationTest {
+ class AlunoRepositoryIntegrationTest {
 
     @Autowired
     private AlunoRepository alunoRepository;

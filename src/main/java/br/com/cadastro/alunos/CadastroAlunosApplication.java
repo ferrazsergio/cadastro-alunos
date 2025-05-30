@@ -17,5 +17,6 @@ public abstract class CadastroAlunosApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CadastroAlunosApplication.class, args);
+
 	}
 }

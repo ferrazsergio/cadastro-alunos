@@ -20,15 +20,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Tag("aceitacao")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = CadastroAlunosApplication.class)
 @ComponentScan(basePackages = "services")
-public class CadastroAlunoStepsTest {
+ class CadastroAlunoStepsTest {
     @BeforeAll
-    public static void setup() {
+     static void setup() {
         RestAssured.baseURI = "http://localhost:8080";
         RestAssured.basePath = "/v1/alunos";
     }
 
     @Test
-    public void testCadastrarAlunoComSucesso() {
+     void testCadastrarAlunoComSucesso() {
         // Corpo da requisição
         String alunoJson = "{ \"cpf\": \"123.456.789-00\", \"nome\": \"João da Silva Souza\", \"endereco\": \"Rua Avelar, número 34, casa 02, Bairro Exemplo\", \"turma\": \"1001B\", \"nota1\": 8.0, \"nota2\": 7.5, \"nota3\": 9.0 }";
 
@@ -56,7 +56,7 @@ public class CadastroAlunoStepsTest {
     }
 
     @Test
-    public void testCadastrarAlunoComCPFInvalido() {
+     void testCadastrarAlunoComCPFInvalido() {
         String alunoJson = "{ \"cpf\": \"123\", \"nome\": \"João da Silva Souza\", \"endereco\": \"Rua Avelar, número 34, casa 02, Bairro Exemplo\", \"turma\": \"1001B\", \"nota1\": 8.0, \"nota2\": 7.5, \"nota3\": 9.0 }";
 
         log.info("Enviando requisição POST para /v1/alunos com CPF inválido:");
@@ -82,7 +82,7 @@ public class CadastroAlunoStepsTest {
     }
 
     @Test
-    public void testListarAlunos() {
+     void testListarAlunos() {
         Response response = given()
                 .when()
                 .get()
@@ -100,7 +100,7 @@ public class CadastroAlunoStepsTest {
     }
 
     @Test
-    public void testDeletarAlunoComSucesso() {
+     void testDeletarAlunoComSucesso() {
         // Primeiro cadastra um aluno para depois excluí-lo
         String cpf = "111.222.333-44";
         String alunoJson = "{ \"cpf\": \"" + cpf + "\", \"nome\": \"Aluno Teste Exclusão\", \"endereco\": \"Rua da Exclusão, número 404, Bairro Teste, Cidade Teste\", \"turma\": \"1003C\", \"nota1\": 6.0, \"nota2\": 7.0, \"nota3\": 5.5 }";
@@ -136,7 +136,7 @@ public class CadastroAlunoStepsTest {
     }
 
     @Test
-    public void testExcluirAlunoNaoExistente() {
+     void testExcluirAlunoNaoExistente() {
         String cpfInexistente = "999.999.999-99";
 
         Response response = given()
@@ -152,7 +152,7 @@ public class CadastroAlunoStepsTest {
     }
 
     @Test
-    public void testAlterarAlunoComSucesso() {
+    void testAlterarAlunoComSucesso() {
         // Primeiro cadastra um aluno para depois alterá-lo
         String cpf = "987.654.321-00";
         String alunoJson = "{ \"cpf\": \"" + cpf + "\", \"nome\": \"Maria Silva\", \"endereco\": \"Avenida Principal, número 100, Apartamento 202, Centro, Cidade Nova\", \"turma\": \"1002A\", \"nota1\": 7.0, \"nota2\": 6.5, \"nota3\": 8.0 }";
