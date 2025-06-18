@@ -28,7 +28,6 @@ public class AlunoDTO {
     @Schema(description = "Situação do aluno (APROVADO/REPROVADO)", example = "APROVADO")
     private String situacao;
 
-    // Opcional: incluir outras informações relevantes para a API
     @Schema(description = "Nota da primeira avaliação", example = "9.0")
     private Double nota1;
 

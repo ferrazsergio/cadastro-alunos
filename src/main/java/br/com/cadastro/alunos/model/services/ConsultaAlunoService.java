@@ -1,5 +1,6 @@
 package br.com.cadastro.alunos.model.services;
 
+import br.com.cadastro.alunos.model.dto.AlunoDTO;
 import br.com.cadastro.alunos.model.entities.Aluno;
 import br.com.cadastro.alunos.model.exceptions.ResourceNotFoundException;
 import br.com.cadastro.alunos.model.exceptions.ServiceException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ConsultaAlunoService {
@@ -60,21 +62,25 @@ public class ConsultaAlunoService {
 
     public List<Aluno> listarAlunosReprovadosUmaProva() {
         if (logger.isInfoEnabled()) {
-            logger.info("Listando alunos reprovados em uma prova");
+            logger.info("Listando alunos que fizeram apenas uma prova");
         }
         try {
-            // Idealmente deveria ser uma query específica no repository
             List<Aluno> alunos = alunoRepository.findAll();
-            List<Aluno> reprovadosUmaProva = new ArrayList<>();
-            for (Aluno aluno : alunos) {
-                if (aluno.getNota2() == 0 || aluno.getNota3() == 0) {
-                    reprovadosUmaProva.add(aluno);
-                }
-            }
-            return reprovadosUmaProva;
+            return alunos.stream()
+                    .filter(aluno -> {
+                        int provasFeitas = 0;
+
+                        // Uma nota é considerada quando é maior que zero
+                        if (aluno.getNota1() != null && aluno.getNota1() > 0) provasFeitas++;
+                        if (aluno.getNota2() != null && aluno.getNota2() > 0) provasFeitas++;
+                        if (aluno.getNota3() != null && aluno.getNota3() > 0) provasFeitas++;
+
+                        return provasFeitas == 1;
+                    })
+                    .toList();
         } catch (Exception e) {
-            logger.error("Erro ao listar alunos reprovados em uma prova", e);
-            throw new ServiceException("Erro ao listar alunos reprovados em uma prova", e);
+            logger.error("Erro ao listar alunos que fizeram apenas uma prova", e);
+            throw new ServiceException("Erro ao listar alunos que fizeram apenas uma prova", e);
         }
     }
 

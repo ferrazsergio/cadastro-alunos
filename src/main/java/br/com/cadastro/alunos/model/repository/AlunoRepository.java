@@ -34,4 +34,12 @@ public interface AlunoRepository extends JpaRepository<Aluno, String> {
 
     @Query("SELECT a FROM Aluno a WHERE a.turma = :turma AND (a.nota1 + a.nota2 + a.nota3) / 3.0 <= 7.0")
     Page<Aluno> findFailedByClass(@Param("turma") String turma, Pageable pageable);
+
+    @Query(value =
+            "SELECT * FROM alunos WHERE " +
+                    "((nota_1 <> 0.0 AND nota_2 = 0.0 AND nota_3 = 0.0) OR " +
+                    "(nota_1 = 0.0 AND nota_2 <> 0.0 AND nota_3 = 0.0) OR " +
+                    "(nota_1 = 0.0 AND nota_2 = 0.0 AND nota_3 <> 0.0))",
+            nativeQuery = true)
+    List<Aluno> findAlunosComApenasUmaProva();
 }

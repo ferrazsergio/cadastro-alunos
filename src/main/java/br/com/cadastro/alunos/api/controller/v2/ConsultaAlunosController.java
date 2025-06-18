@@ -51,14 +51,20 @@ public class ConsultaAlunosController {
 
         List<Aluno> alunos;
 
-        if ("aprovado".equals(situacao)) {
+        if ("uma-prova".equals(tipo) && "aprovado".equals(situacao)) {
+            //não pode haver aluno aprovado que fez apenas uma prova
+            return ResponseEntity.badRequest().build(); // Retorna 400 Bad Request
+        }
+
+        if ("uma-prova".equals(tipo)) {
+            // Se tipo=uma-prova está presente (sozinho ou com situacao=reprovado)
+            alunos = consultaAlunoService.listarAlunosReprovadosUmaProva();
+        } else if ("aprovado".equals(situacao)) {
+            // Se situacao=aprovado (e tipo não é uma-prova)
             alunos = consultaAlunoService.listarAlunosAprovados();
         } else if ("reprovado".equals(situacao)) {
-            if ("uma-prova".equals(tipo)) {
-                alunos = consultaAlunoService.listarAlunosReprovadosUmaProva();
-            } else {
-                alunos = consultaAlunoService.listarTodosAlunosReprovados();
-            }
+            // Se situacao=reprovado (e tipo não é uma-prova)
+            alunos = consultaAlunoService.listarTodosAlunosReprovados();
         } else {
             alunos = consultaAlunoService.listarTodosAlunos();
         }

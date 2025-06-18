@@ -45,7 +45,7 @@ class VerificaAlunoServiceTest {
     void setUp() {
         alunoAprovado = new Aluno("123", "Carlos", "Rua A", "Turma 1", 9.0, 8.0, 7.5, "SIM");
         alunoReprovado = new Aluno("124", "Ana", "Rua B", "Turma 2", 5.0, 6.0, 5.5, "NÃO");
-        alunoReprovadoUmaProva = new Aluno("125", "João", "Rua C", "Turma 3", 9.0, 0.0, 8.5, "NÃO");
+        alunoReprovadoUmaProva = new Aluno("125", "João", "Rua C", "Turma 3", 9.0, 0.0, 0.0, "NÃO");
     }
 
     @Test
