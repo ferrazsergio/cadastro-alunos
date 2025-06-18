@@ -93,7 +93,6 @@ public class ConsultaAlunoService {
             logger.info("Listando todos os alunos reprovados");
         }
         try {
-            // Idealmente deveria ser uma query específica no repository
             List<Aluno> alunos = alunoRepository.findAll();
             List<Aluno> reprovados = new ArrayList<>();
             for (Aluno aluno : alunos) {
