@@ -57,7 +57,7 @@ public class ConsultaAlunoService {
             throw new ServiceException("Erro ao listar alunos aprovados", e);
         }
     }
-
+    @SuppressWarnings("checkstyle:whitespace")
     public List<Aluno> listarAlunosReprovadosUmaProva() {
         if (logger.isInfoEnabled()) {
             logger.info("Listando alunos que fizeram apenas uma prova");
