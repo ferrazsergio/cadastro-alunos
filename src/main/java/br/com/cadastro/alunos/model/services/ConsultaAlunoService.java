@@ -69,9 +69,12 @@ public class ConsultaAlunoService {
                         int provasFeitas = 0;
 
                         // Uma nota é considerada quando é maior que zero
-                        if (aluno.getNota1() != null && aluno.getNota1() > 0) provasFeitas++;
-                        if (aluno.getNota2() != null && aluno.getNota2() > 0) provasFeitas++;
-                        if (aluno.getNota3() != null && aluno.getNota3() > 0) provasFeitas++;
+                        if (aluno.getNota1() != null && aluno.getNota1() > 0) {
+                            provasFeitas++;}
+                        if (aluno.getNota2() != null && aluno.getNota2() > 0) {
+                            provasFeitas++;}
+                        if (aluno.getNota3() != null && aluno.getNota3() > 0) {
+                            provasFeitas++;}
 
                         return provasFeitas == 1;
                     })
