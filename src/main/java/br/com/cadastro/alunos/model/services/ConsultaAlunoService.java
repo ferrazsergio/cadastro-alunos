@@ -18,8 +18,8 @@ import java.util.List;
 @Service
 public class ConsultaAlunoService {
 
-    private final AlunoRepository alunoRepository;
     private static final Logger logger = LogManager.getLogger(ConsultaAlunoService.class);
+    private final AlunoRepository alunoRepository;
 
     @Autowired
     public ConsultaAlunoService(AlunoRepository alunoRepository) {
@@ -70,11 +70,14 @@ public class ConsultaAlunoService {
 
                         // Uma nota é considerada quando é maior que zero
                         if (aluno.getNota1() != null && aluno.getNota1() > 0) {
-                            provasFeitas++;}
+                            provasFeitas++;
+                        }
                         if (aluno.getNota2() != null && aluno.getNota2() > 0) {
-                            provasFeitas++;}
+                            provasFeitas++;
+                        }
                         if (aluno.getNota3() != null && aluno.getNota3() > 0) {
-                            provasFeitas++;}
+                            provasFeitas++;
+                        }
 
                         return provasFeitas == 1;
                     })
