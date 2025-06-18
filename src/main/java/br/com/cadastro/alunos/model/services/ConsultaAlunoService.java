@@ -1,6 +1,5 @@
 package br.com.cadastro.alunos.model.services;
 
-import br.com.cadastro.alunos.model.dto.AlunoDTO;
 import br.com.cadastro.alunos.model.entities.Aluno;
 import br.com.cadastro.alunos.model.exceptions.ResourceNotFoundException;
 import br.com.cadastro.alunos.model.exceptions.ServiceException;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ConsultaAlunoService {
@@ -129,7 +127,6 @@ public class ConsultaAlunoService {
         }
         try {
             Pageable pageable = PageRequest.of(pageNumber, pageSize);
-            // Corrigindo o método para realmente buscar alunos reprovados
             Page<Aluno> alunosReprovados = alunoRepository.findByTurmaAndAprovado(turma, "NÃO", pageable);
             if (alunosReprovados.isEmpty()) {
                 throw new ResourceNotFoundException("Nenhum aluno reprovado encontrado na turma " + turma);
