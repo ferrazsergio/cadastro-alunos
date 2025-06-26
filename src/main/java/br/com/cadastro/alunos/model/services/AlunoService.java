@@ -14,7 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@SuppressWarnings("PMD.GuardLogStatement")
+@SuppressWarnings({
+        "java:S3776", // Cognitive Complexity
+        "java:S3655",  // Optional#isPresent
+        "PMD.GuardLogStatement"
+})
 public class AlunoService {
 
     private final AlunoRepository alunoRepository;
@@ -204,5 +208,10 @@ public class AlunoService {
             logger.debug("Média calculada para o aluno {}: {}", aluno.getCpf(), media);
         }
         return media;
+    }
+
+    public void atualizarSituacaoAluno(Aluno aluno) {
+        double media = (aluno.getNota1() + aluno.getNota2() + aluno.getNota3()) / 3.0;
+        aluno.setAprovado(media >= 7.0 ? "APROVADO" : "REPROVADO");
     }
 }

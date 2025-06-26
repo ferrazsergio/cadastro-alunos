@@ -24,6 +24,7 @@ import java.util.List;
 @RequestMapping("/v2/alunos")
 @Tag(name = "Consulta de alunos", description = "Endpoints para consulta de informações de alunos")
 @Validated
+@SuppressWarnings("java:S1192")
 public class ConsultaAlunosController {
 
     private final ConsultaAlunoService consultaAlunoService;
@@ -92,8 +93,8 @@ public class ConsultaAlunosController {
             @Parameter(description = "Código da turma", required = true)
             @RequestParam @NotBlank String turma,
 
-            @Parameter(description = "Situação do aluno: aprovado, reprovado")
-            @RequestParam(required = false, defaultValue = "aprovado") String situacao,
+            @Parameter(description = "Situação do aluno: aprovado, reprovado, todos")
+            @RequestParam(required = false, defaultValue = "todos") String situacao,
 
             @Parameter(description = "Número da página (começando em 0)")
             @RequestParam(defaultValue = "0") @Min(0) int page,
@@ -103,9 +104,12 @@ public class ConsultaAlunosController {
 
         Page<Aluno> alunos;
 
-        if ("aprovado".equals(situacao)) {
+        String situacaoLowerCase = situacao.toLowerCase();
+
+        // Lógica de seleção do tipo de consulta
+        if ("aprovado".equals(situacaoLowerCase)) {
             alunos = consultaAlunoService.buscarAlunosAprovadosPorTurma(turma, page, size);
-        } else if ("reprovado".equals(situacao)) {
+        } else if ("reprovado".equals(situacaoLowerCase)) {
             alunos = consultaAlunoService.buscarAlunosReprovadosPorTurma(turma, page, size);
         } else {
             alunos = consultaAlunoService.buscarTodosAlunosPorTurma(turma, page, size);

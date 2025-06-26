@@ -42,4 +42,7 @@ public interface AlunoRepository extends JpaRepository<Aluno, String> {
                     "(nota_1 = 0.0 AND nota_2 = 0.0 AND nota_3 <> 0.0))",
             nativeQuery = true)
     List<Aluno> findAlunosComApenasUmaProva();
+
+
+    Page<Aluno> findByTurmaAndAprovadoIn(String turma, List<String> list, Pageable pageable);
 }

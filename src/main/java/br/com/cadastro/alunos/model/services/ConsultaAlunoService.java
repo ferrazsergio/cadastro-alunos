@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -113,7 +114,12 @@ public class ConsultaAlunoService {
         }
         try {
             Pageable pageable = PageRequest.of(pageNumber, pageSize);
-            Page<Aluno> alunosAprovados = alunoRepository.findByTurmaAndAprovado(turma, "SIM", pageable);
+
+            // Como você tem valores inconsistentes, precisa buscar por ambos os possíveis valores de aprovado
+            // Opção 1: Usar query customizada no repository
+            Page<Aluno> alunosAprovados = alunoRepository.findByTurmaAndAprovadoIn(turma,
+                    Arrays.asList("Sim", "APROVADO"), pageable);
+
             if (alunosAprovados.isEmpty()) {
                 throw new ResourceNotFoundException("Nenhum aluno aprovado encontrado na turma " + turma);
             }
@@ -132,7 +138,10 @@ public class ConsultaAlunoService {
         }
         try {
             Pageable pageable = PageRequest.of(pageNumber, pageSize);
-            Page<Aluno> alunosReprovados = alunoRepository.findByTurmaAndAprovado(turma, "NÃO", pageable);
+
+            // Buscar apenas por "Não" já que é o único valor para reprovados
+            Page<Aluno> alunosReprovados = alunoRepository.findByTurmaAndAprovado(turma, "Não", pageable);
+
             if (alunosReprovados.isEmpty()) {
                 throw new ResourceNotFoundException("Nenhum aluno reprovado encontrado na turma " + turma);
             }

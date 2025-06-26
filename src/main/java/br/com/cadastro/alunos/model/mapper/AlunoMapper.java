@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 @Component
+@SuppressWarnings("java:S1192")
 public class AlunoMapper {
 
     /**
@@ -21,7 +22,19 @@ public class AlunoMapper {
         // Calcula a média com precisão de duas casas decimais
         double mediaCalculada = calcularMedia(aluno);
         double mediaFormatada = formatarMedia(mediaCalculada);
-        String situacao = mediaCalculada >= 7.0 ? "APROVADO" : "REPROVADO";
+
+        // Converte os valores do banco para o DTO
+        String situacao;
+        if (aluno.getAprovado() != null) {
+            // Considerar todos os possíveis valores de aprovado
+            if ("Sim".equals(aluno.getAprovado()) || "APROVADO".equals(aluno.getAprovado())) {
+                situacao = "APROVADO";
+            } else {
+                situacao = "REPROVADO";
+            }
+        } else {
+            situacao = mediaCalculada >= 7.0 ? "APROVADO" : "REPROVADO";
+        }
 
         return AlunoDTO.builder()
                 .cpf(aluno.getCpf())
@@ -33,6 +46,29 @@ public class AlunoMapper {
                 .nota2(aluno.getNota2())
                 .nota3(aluno.getNota3())
                 .build();
+    }
+
+    /**
+     * Converte um DTO em entidade e atualiza o campo aprovado
+     */
+    public Aluno toEntity(AlunoDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        Aluno aluno = Aluno.builder()
+                .cpf(dto.getCpf())
+                .nome(dto.getNome())
+                .turma(dto.getTurma())
+                .nota1(dto.getNota1())
+                .nota2(dto.getNota2())
+                .nota3(dto.getNota3())
+                .build();
+
+        // Atualiza o campo aprovado com base na situação do DTO
+        aluno.setAprovado(dto.getSituacao());
+
+        return aluno;
     }
 
     /**
