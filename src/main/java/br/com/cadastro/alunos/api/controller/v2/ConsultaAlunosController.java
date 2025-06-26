@@ -104,12 +104,10 @@ public class ConsultaAlunosController {
 
         Page<Aluno> alunos;
 
-        String situacaoLowerCase = situacao.toLowerCase();
-
         // Lógica de seleção do tipo de consulta
-        if ("aprovado".equals(situacaoLowerCase)) {
+        if ("aprovado".equalsIgnoreCase(situacao)) {
             alunos = consultaAlunoService.buscarAlunosAprovadosPorTurma(turma, page, size);
-        } else if ("reprovado".equals(situacaoLowerCase)) {
+        } else if ("reprovado".equalsIgnoreCase(situacao)) {
             alunos = consultaAlunoService.buscarAlunosReprovadosPorTurma(turma, page, size);
         } else {
             alunos = consultaAlunoService.buscarTodosAlunosPorTurma(turma, page, size);
