@@ -16,6 +16,12 @@
 	<description>Cadastro de Alunos</description>
 	<properties>
 		<java.version>21</java.version>
+		<!-- Propriedades SonarQube -->
+		<sonar.java.source>21</sonar.java.source>
+		<sonar.sources>src/main/java,src/main/resources</sonar.sources>
+		<sonar.tests>src/test/java</sonar.tests>
+		<sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.projectKey>ferrazsergio_cadastro-alunos</sonar.projectKey>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -178,6 +184,33 @@
 						<ruleset>/rulesets/java/quickstart.xml</ruleset>
 					</rulesets>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.10.0.2594</version>
+			</plugin>
+
+			<!-- JaCoCo Plugin para Cobertura de Código -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.11</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
